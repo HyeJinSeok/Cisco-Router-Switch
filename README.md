@@ -37,9 +37,7 @@ Cisco Packet Tracer를 활용하여 네트워크 기본 구조와 동작 원리�
 - **Router 간 연결 (WAN)**
 
     - Router0 ↔ Router1: Serial 0/0/0 포트로 연결
-
     - Router0: 10.0.0.1/30
-
     - Router1: 10.0.0.2/30
 
 <br>
@@ -100,11 +98,11 @@ DHCP 서버가 없으므로 직접 수동으로 입력한다.
 
 <img src="images/img3.png" alt="img3" width="400"/>
 
-**▪ PC와 연결만 하면 통신 가능**
+**1️⃣ PC와 연결만 하면 통신 가능**
 
 스위치는 단순히 '패킷 허브' 역할을 하기 때문에, 스위치 자체에 IP 주소가 없어도 동작할 수 있다.
 
-**▪ 케이블 종류**
+**2️⃣ 케이블 종류**
 
 PC ↔ Switch 연결 시에는 **Straight-through Cable**을 사용한다.
 
@@ -120,17 +118,17 @@ PC ↔ Switch 연결 시에는 **Straight-through Cable**을 사용한다.
 
 <img src="images/img4.png" alt="img4" width="1000"/>
 
-**▪ 라우터와 PC는 같은 네트워크에 있어야 통신 가능**
+**1️⃣ 라우터와 PC는 같은 네트워크에 있어야 통신 가능**
 
 예: 192.168.1.0/24 네트워크에 PC0(192.168.1.10)와 Router0(192.168.1.1)을 두어야 직접 통신 가능하다.
 
-**▪ Router 인터페이스에 IP 주소 할당**
+**2️⃣ Router 인터페이스에 IP 주소 할당**
 
 라우터는 여러 네트워크를 연결하는 장비이므로, 각 네트워크에 속하는 **인터페이스에 IP를 부여**해야 한다.
 
 PC ↔ Switch ↔ Router 구간에서는 Router의 **GigabitEthernet0/1** 인터페이스에 IP를 준다.
 
-**▪ CLI 명령어**
+**3️⃣ CLI 명령어**
 
 ```
 Router> enable
@@ -151,7 +149,7 @@ Router(config-if)# exit
 
 <img src="images/img5.png" alt="img5" width="1000"/>
 
-**▪ Default Gateway 설정**
+**1️⃣ Default Gateway 설정**
 
 PC0 설정 화면(Config → GLOBAL)에서 Default Gateway를 입력한다.
 
@@ -171,7 +169,7 @@ PC0 → 라우터의 IP(192.168.1.1)로 Ping을 보내 통신 여부를 확인�
 
 <img src="images/img7.png" alt="img7" width="1000"/>
 
-**▪ PC0에서 Desktop → Command Prompt 실행**
+**1️⃣ PC0에서 Desktop → Command Prompt 실행**
 
 ping 192.168.1.1 입력 후 응답을 확인한다.
 
@@ -217,7 +215,7 @@ HWIC-2T 모듈을 추가하면 라우터 인터페이스 목록에 Serial0/0/0�
 
 <img src="images/img12.png" alt="img12" width="500"/>
 
-**▪ Serial0/0/0은 "슬롯 0 / 모듈 0 / 포트 0"을 의미**
+**1️⃣ Serial0/0/0은 "슬롯 0 / 모듈 0 / 포트 0"을 의미**
 
 이 포트를 선택해서 Router0 ↔ Router1을 연결하면 된다.
 
@@ -227,15 +225,17 @@ HWIC-2T 모듈을 추가하면 라우터 인터페이스 목록에 Serial0/0/0�
 
 라우터 간 연결을 위해 Serial 포트에 IP 주소와 Subnet Mask를 설정해야 한다.
 
+<br>
+
 <img src="images/img13.png" alt="img13" width="800"/>
 
 <img src="images/img14.png" alt="img14" width="800"/>
 
-**▪ 기본적으로 인터페이스는 shutdown 상태이므로, no shutdown 명령어로 반드시 활성화**
+**1️⃣ 기본적으로 인터페이스는 shutdown 상태이므로, no shutdown 명령어로 반드시 활성화**
 
 Router는 LAN 쪽 IP와 WAN 쪽 Serial IP → 즉 **2개의 IP 주소**를 가지게 된다.
 
-**▪ CLI 명령어**
+**2️⃣ CLI 명령어**
 
 ```
 // Router0 Serial 설정
@@ -257,3 +257,58 @@ Router1(config-if)# no shutdown
 Router1(config-if)# exit
 ```
 
+<br>
+
+## 7. Routing Table 만들기
+
+라우터는 기본적으로 자신과 직접 연결된 네트워크만 인식한다.
+
+따라서 다른 네트워크와 통신하려면, **정적 라우팅(ip route)** 명령어로 경로를 지정해줘야 한다.
+
+<br>
+
+### < 라우팅 테이블 미설정 시 >
+
+<img src="images/img15.png" alt="img15" width="700"/>
+
+<br>
+
+### < 정적 라우팅하는 방법 >
+
+```
+// 일반적인 형식
+ip route <Destination Network> <Subnet Mask> <Next Hop>
+
+// Router0 설정 예시
+// 172.16.1.0/24 네트워크로 가는 패킷은 10.0.0.2로 보내라
+
+Router0(config)# ip route 172.16.1.0 255.255.255.0 10.0.0.2
+
+// Router1 설정 예시
+// 192.168.1.0/24 네트워크로 가는 패킷은 10.0.0.1로 보내라
+
+Router1(config)# ip route 192.168.1.0 255.255.255.0 10.0.0.1
+```
+
+<img src="images/img16.png" alt="img16" width="800"/>
+
+<br>
+
+### < 라우팅 후 Ping 테스트 >
+
+<img src="images/img17.png" alt="img17" width="700"/>
+
+<br>
+
+### ⚠️ 라우팅 테이블 작성 시 주의사항
+
+목적지는 호스트 IP가 아니라 **네트워크 주소**로 적어야 한다.
+
+라우터는 'IP 하나'가 아니라 네트워크 전체를 대상으로 경로를 인식하기 때문이다.
+
+예: 172.16.1.10 아니라, 172.16.1.0 (== **0으로 끝나는 주소**)
+
+<br>
+
+#### < 잘못된 정적 라우팅 입력 시 >
+<img src="images/img18.png" alt="img18" width="700"/>
