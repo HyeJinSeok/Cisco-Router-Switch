@@ -14,12 +14,6 @@ Cisco Packet Tracer를 활용하여 네트워크 기본 구조와 동작 원리�
 
 <br>
 
-### 실습 수행일
-
-**📆 2025.02**
-
-<br>
-
 ### < 토폴로지 다이어그램 >
 
 각 PC는 스위치를 통해 라우터와 연결되고, 두 라우터는 시리얼 링크로 연결된다.
@@ -50,7 +44,7 @@ Cisco Packet Tracer를 활용하여 네트워크 기본 구조와 동작 원리�
 
 <br>
 
-### 📌실습과정 요약
+### 📌실습 과정 요약
 
 ```
 1. PC 설정
@@ -74,9 +68,11 @@ Cisco Packet Tracer를 활용하여 네트워크 기본 구조와 동작 원리�
 
 PC의 IP주소와 서브넷 마스크를 설정한다.
 
+<br>
+
 <img src="images/img2.png" alt="img2" width="1000"/>
 
-**▪ PC0 선택 → Config 탭 → FastEthernet0 클릭**
+**1️⃣ PC0 선택 → Config 탭 → FastEthernet0 클릭**
 
 Packet Tracer에서 PC는 여러 네트워크 인터페이스를 가질 수 있는데, 
 
@@ -84,11 +80,11 @@ Packet Tracer에서 PC는 여러 네트워크 인터페이스를 가질 수 있�
 
 따라서 해당 인터페이스 메뉴에서만 IP 주소를 입력해야 실제 통신이 가능하다.
 
-**▪ IP Configuration → Static 선택**
+**2️⃣ IP Configuration → Static 선택**
 
 DHCP 서버가 없으므로 직접 수동으로 입력한다.
 
-**▪ IPv4 Address & Subnet Mask 입력**
+**3️⃣ IPv4 Address & Subnet Mask 입력**
 
 예: 192.168.1.10 / 255.255.255.0
 
@@ -99,6 +95,8 @@ DHCP 서버가 없으므로 직접 수동으로 입력한다.
 ## 2. Switch 생성
 
 스위치는 데이터링크 계층에서 MAC 주소 기반으로 프레임을 전달하는 Layer 2 장비이다.
+
+<br>
 
 <img src="images/img3.png" alt="img3" width="400"/>
 
@@ -117,6 +115,8 @@ PC ↔ Switch 연결 시에는 **Straight-through Cable**을 사용한다.
 ## 3. Router 설정
 
 라우터는 네트워크 계층에서 IP주소 기반으로 패킷을 전달하는 Layer 3 장비이다.
+
+<br>
 
 <img src="images/img4.png" alt="img4" width="1000"/>
 
@@ -147,6 +147,8 @@ Router(config-if)# exit
 
 위에서 설정한 Router0이 PC0의 기본 게이트웨이가 된다.
 
+<br>
+
 <img src="images/img5.png" alt="img5" width="1000"/>
 
 **▪ Default Gateway 설정**
@@ -162,6 +164,8 @@ PC0 설정 화면(Config → GLOBAL)에서 Default Gateway를 입력한다.
 ## 5. Ping 테스트
 
 PC0 → 라우터의 IP(192.168.1.1)로 Ping을 보내 통신 여부를 확인한다.
+
+<br>
 
 <img src="images/img6.png" alt="img6" width="1000"/>
 
@@ -185,9 +189,13 @@ ping 192.168.1.1 입력 후 응답을 확인한다.
 
 <img src="images/img8.png" alt="img8" width="1000"/>
 
+<br>
+
 ### 6-1) Router 간 연결은 Serial 인터페이스 사용
 
 <img src="images/img9.png" alt="img9" width="1000"/>
+
+<br>
 
 ### 6-2) 각 라우터에 HWIC-2T 모듈 추가
 
